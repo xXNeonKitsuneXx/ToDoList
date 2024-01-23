@@ -4,7 +4,7 @@ import viteLogo from '../../public/vite.svg';
 import '../../app/globals.css';
 
 import { Toaster } from "@/components/ui/toaster";
-import { ToastDemo } from '.././components/button_WithToast';
+import { ToastDemo } from '../components/button_WithToast copy';
 
 export const Home = () => {
   const [count, setCount] = useState(0);
