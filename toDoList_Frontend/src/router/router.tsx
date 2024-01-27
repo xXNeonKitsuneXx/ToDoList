@@ -4,9 +4,11 @@ import { Home } from "../pages/home";
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <div className="m-8">
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };
