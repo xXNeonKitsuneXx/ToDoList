@@ -10,7 +10,7 @@ import {
 
 export function CardShowHome() {
   return (
-    <Card className="w-[350px]">
+    <Card className="w-[350px] shadow-xl">
       <CardHeader className="pb-0">
         <CardTitle>Name of Work MOCKKK</CardTitle>
         <CardDescription>Date MOCK ?</CardDescription>
