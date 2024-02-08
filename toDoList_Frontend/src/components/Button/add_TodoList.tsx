@@ -1,23 +1,17 @@
 import { FaPlus } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -26,59 +20,57 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { cn } from "@/lib/utils";
+
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// import { toast } from "@/components/ui/use-toast";
-
 import Swal from "sweetalert2";
 
-// import * as dayjs from 'dayjs'
-
-
-
-const FormSchema = z.object({
-  name: z.string({
-    required_error: "Please enter the name of task.",
-  }),
-  deadline: z.date({
-    required_error: "Please add your deadline.",
-  }),
-  description: z.string({
-    required_error: "Please enter the description of task",
-  }),
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: "3 to 20 character" })
+    .max(20, { message: "3 to 20 character" }),
+  deadline: z.date(),
+  description: z
+    .string()
+    .min(5, { message: "5 to 30 character" })
+    .max(30, { message: "5 to 30 character" }), //Didnt tell error from start
 });
 
+type FormSchema = z.infer<typeof formSchema>;
+
 export const AddToDo = () => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<FormSchema>({
+    defaultValues: {
+      name: "",
+      deadline: new Date(new Date().setHours(23, 59, 0, 0)),
+      description: "",
+    },
+    resolver: zodResolver(formSchema), //Set mai a
   });
 
-  // data: z.infer<typeof FormSchema>
-  function onSubmit() {
-    const formData = form.getValues();
-    const deadlineData = formData.deadline.toISOString().substring(0,10);
-
-
-    // toast({
-    //   title: "You submitted the following values:",
-    //   description: (
-    //     <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-    //       <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-    //     </pre>
-    //   ),
-    // });
+  const handleClick = (data: FormSchema) => {
     Swal.fire({
       title: "Adding Task complete!",
-      html: `<strong class="text-purple-600">${formData.name}</strong> is added <strong>&</strong> deadline is <strong class="text-red-600">${deadlineData}</strong>`,
+      html: `<strong class="text-purple-600">${data.name}${data.description}</strong> is added <strong>&</strong> deadline is <strong class="text-red-600">${data.deadline}}</strong>`,
       icon: "success",
       confirmButtonText: "Close",
       confirmButtonColor: "#9333ea",
     });
-  }
-  
+    form.reset();
+  };
 
   return (
     <Dialog>
@@ -87,23 +79,27 @@ export const AddToDo = () => {
           <FaPlus className="text-lg" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] ">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">Add Your Task</DialogTitle>
+          <DialogTitle>Add Task</DialogTitle>
+          <DialogDescription>Make a to do list for yourself.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(handleClick)} className="space-y-8">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Name of Deadline</FormLabel>
-                  <Input {...field} placeholder="Enter the name" />
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter name..." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            {/* //---------------------------------------------- */}
             <FormField
               control={form.control}
               name="deadline"
@@ -135,8 +131,9 @@ export const AddToDo = () => {
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
-                          date < new Date((new Date().setHours(0, 0, 0, 0)))
-                        }
+                          date < new Date(new Date().setHours(23, 59, 0, 0)) ||
+                          date < new Date("1900-01-01") // How to set today date and how I can deadline at 23:59 of that picked date
+                        } // time zone too
                         initialFocus
                       />
                     </PopoverContent>
@@ -145,22 +142,26 @@ export const AddToDo = () => {
                 </FormItem>
               )}
             />
+            {/* //-------------------------------------------- */}
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Description</FormLabel>
-                  <Input {...field} placeholder="Enter the description" />
+                  <FormControl>
+                    <Input placeholder="Enter description..." {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <DialogClose asChild>
-            <Button className="ml-auto" type="submit" disabled={!form.formState.isValid}>
-              Submit
-            </Button>
-          </DialogClose>
+            {/* ////////////////////////////////////////////////////////////// */}
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="submit" disabled={!form.formState.isValid}>Submit</Button>
+              </DialogClose>
+            </DialogFooter>
           </form>
         </Form>
       </DialogContent>
