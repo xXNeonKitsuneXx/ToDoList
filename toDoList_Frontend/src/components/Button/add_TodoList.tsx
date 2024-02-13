@@ -64,7 +64,7 @@ export const AddToDo = () => {
   const handleClick = (data: FormSchema) => {
     Swal.fire({
       title: "Adding Task complete!",
-      html: `<strong class="text-purple-600">${data.name}${data.description}</strong> is added <strong>&</strong> deadline is <strong class="text-red-600">${data.deadline}}</strong>`,
+      html: `<strong class="text-purple-600">${data.name}${data.description}</strong> is added <strong>&</strong> deadline is <strong class="text-red-600">${data.deadline.toString().substring(0, 16)}</strong>`,
       icon: "success",
       confirmButtonText: "Close",
       confirmButtonColor: "#9333ea",
@@ -158,8 +158,8 @@ export const AddToDo = () => {
             />
             {/* ////////////////////////////////////////////////////////////// */}
             <DialogFooter>
-              <DialogClose asChild>
-                <Button type="submit" disabled={!form.formState.isValid}>Submit</Button>
+              <DialogClose disabled={!form.formState.isValid} asChild>
+                <Button type="submit">Submit</Button>
               </DialogClose>
             </DialogFooter>
           </form>
