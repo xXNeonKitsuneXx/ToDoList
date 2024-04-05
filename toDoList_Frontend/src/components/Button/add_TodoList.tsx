@@ -72,6 +72,15 @@ export const AddToDo = () => {
     form.reset();
   };
 
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -131,9 +140,8 @@ export const AddToDo = () => {
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) =>
-                          date < new Date(new Date().setHours(23, 59, 0, 0)) ||
-                          date < new Date("1900-01-01") // How to set today date and how I can deadline at 23:59 of that picked date
-                        } // time zone too
+                          date < new Date(new Date().setHours(23, 59, 0, 0)) && !isToday(date)
+                        }
                         initialFocus
                       />
                     </PopoverContent>

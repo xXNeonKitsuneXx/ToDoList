@@ -34,7 +34,7 @@ package main
 
 import (
 	"fmt"
-	// "log"
+	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -42,37 +42,48 @@ import (
 	"gorm.io/driver/postgres"
 )
 
-type List_Need_To_Do struct {
+type ListNeedToDo struct {
 	gorm.Model
-	LNTD_ID	   uint `gorm:"primaryKey"`
-	Name       string
-	Date       time.Time
+	ID          uint `gorm:"primaryKey"`
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DoneAt      *time.Time `gorm:"null"`
+	Name        string
+	DeadlineAt  time.Time
 	Description string
+	DoneInTime  int
 }
 
 func main() {
-	dsn := "postgresql://BocchiKitsuNei:DpwPBBlJw78XBb91Au_fpw@bocchikitsunei-8346.8nk.gcp-asia-southeast1.cockroachlabs.cloud:26257/ToDoList_GoLang?sslmode=verify-full"
+	dsn := "postgresql://bocchikitsunei:C2LUJGWd5wn8xJDEmvo6Ng@todolistbocchikitsunei-9025.8nk.gcp-asia-southeast1.cockroachlabs.cloud:26257/ToDoList_BocchiKitsuNei?sslmode=verify-full"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatal("failed to connect database", err)
 	}
 
 	var now time.Time
 	db.Raw("SELECT NOW()").Scan(&now)
+
 	fmt.Println(now)
 
 	// Migrate the schema
-	db.AutoMigrate(&List_Need_To_Do{})
+	err = db.AutoMigrate(&ListNeedToDo{})
+	if err != nil {
+		return
+	}
 
 	// Create
-	db.Create(&List_Need_To_Do{Name: "Name001", Date: now, Description: "Desciption001"})
+	db.Create(&ListNeedToDo{Name: "Name001", CreatedAt: time.Now(), DeadlineAt: time.Now().Add(24 * time.Hour), Description: "This is an example task."})
 
-	// Read
-	var listNeedToDo List_Need_To_Do
-	db.First(&listNeedToDo, 1)
-	db.First(&listNeedToDo, "Name = ?", "Name001")
-	fmt.Println(listNeedToDo, 1)
-	fmt.Println(listNeedToDo, "Name = ?", "Name001")
+	//// Read
+	//var listNeedToDo ListNeedToDo
+	//db.First(&listNeedToDo, 1)
+	//db.First(&listNeedToDo, "Name = ?", "Name001")
+	//fmt.Println(listNeedToDo, 1)
+	//fmt.Println(listNeedToDo, "Name = ?", "Name001")
+	//
+	//var retrievedTask ListNeedToDo
+	//db.First(&retrievedTask, 1)
 
 	// // Update - update product's price to 200
 	// db.Model(&listNeedToDo).Update("Price", 200)
@@ -83,5 +94,4 @@ func main() {
 	// // Delete - delete product
 	// db.Delete(&listNeedToDo, 1)
 
-	
 }
