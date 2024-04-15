@@ -11,6 +11,7 @@ type toDoListRepositoryDB struct {
 }
 
 func NewToDoListRepositoryDB(db *gorm.DB) toDoListRepositoryDB {
+	// Did this is correct way ?
 	db = db.Table("toDoListTable") // Set the table name
 	return toDoListRepositoryDB{db: db}
 }
