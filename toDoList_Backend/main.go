@@ -1,6 +1,12 @@
 package main
 
-import "github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
+import (
+	"fmt"
+
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+)
 
 // import "fmt"
 
@@ -15,5 +21,20 @@ import "github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
 // }
 
 func main() {
-	repository.NewToDoListRepositoryDB()
+	dsn := "BocchiKitsuNei:Crown1003@tcp(localhost:3306)/toDoListMariaDB?parseTime=true"
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	toDoListRepository := repository.NewToDoListRepositoryDB(db)
+
+	_ = toDoListRepository
+
+	todolists, err := toDoListRepository.GetAll()
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(todolists)
 }
