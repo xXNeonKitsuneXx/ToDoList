@@ -4,21 +4,11 @@ import (
 	"fmt"
 
 	"github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/service"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
-
-// import "fmt"
-
-// func main() {
-// 	fmt.Println("PEKOPEKO")
-// 	fmt.Println(Hello("Trainer-San"));
-// }
-
-// func Hello(name string) string {
-//     message := fmt.Sprintf("Konbanwa, %v. Irachai!", name)
-//     return message
-// }
 
 func main() {
 	dsn := "BocchiKitsuNei:Crown1003@tcp(localhost:3306)/toDoListMariaDB?parseTime=true"
@@ -29,12 +19,21 @@ func main() {
 
 	toDoListRepository := repository.NewToDoListRepositoryDB(db)
 
-	_ = toDoListRepository
+	// _ = toDoListRepository
 
-	todolists, err := toDoListRepository.GetAll()
+	// todolists, err := toDoListRepository.GetAll()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// fmt.Println(todolists)
+	
+	toDoListService := service.NewToDoListService(toDoListRepository)
+
+	toDoLists, err := toDoListService.GetToDoLists()
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Println(todolists)
+	fmt.Println(toDoLists)
 }
