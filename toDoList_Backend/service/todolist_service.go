@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
 	"log"
 
 	"github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
@@ -14,25 +15,25 @@ func NewToDoListService(toDoListRepo repository.ToDoListRepository) toDoListServ
 	return toDoListService{toDoListRepo: toDoListRepo}
 }
 
-func (s toDoListService) GetToDoLists() ([]ToDoListResponse, error) {
+func (s toDoListService) GetToDoLists() ([]entities.Todo, error) {
 	todolists, err := s.toDoListRepo.GetAll()
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	toDoListResponses := []ToDoListResponse{}
+	toDoListResponses := []entities.Todo{}
 	for _, todolist := range todolists {
-		toDoListResponse := ToDoListResponse{
-			Id: todolist.Id,
-			Name: todolist.Name,
-			Create_at: todolist.Create_at,
-			Update_at: todolist.Update_at,
-			Delete_at: todolist.Deadline_at,
-			Deadline_at: todolist.Deadline_at,
-			Done_at: todolist.Done_at,
+		toDoListResponse := entities.Todo{
+			ID:          todolist.ID,
+			Name:        todolist.Name,
+			CreatedAt:   todolist.CreatedAt,
+			UpdatedAt:   todolist.UpdatedAt,
+			DeletedAt:   todolist.DeletedAt,
+			DeadlineAt:  todolist.DeadlineAt,
+			DoneAt:      todolist.DoneAt,
 			Description: todolist.Description,
-			Done_in_time: todolist.Done_in_time,
+			DoneInTime:  todolist.DoneInTime,
 		}
 		toDoListResponses = append(toDoListResponses, toDoListResponse)
 	}
