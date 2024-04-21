@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/v"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/utils/v"
 	"time"
 )
 

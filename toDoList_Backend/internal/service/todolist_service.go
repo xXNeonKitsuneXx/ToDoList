@@ -1,10 +1,9 @@
 package service
 
 import (
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/repository"
 	"log"
-
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
 )
 
 type toDoListService struct {

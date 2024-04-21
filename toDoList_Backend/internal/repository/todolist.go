@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/entities"
 )
 
 type ToDoListRepository interface {

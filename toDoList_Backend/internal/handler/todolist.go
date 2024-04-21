@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/gofiber/fiber/v2"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/dtos"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/service"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/dtos"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/service"
 )
 
 type toDoListHandler struct {

@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/handler"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/repository"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/service"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/handler"
+	repository2 "github.com/xXNeonKitsuneXx/toDoList_Backend/internal/repository"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/service"
 	"gorm.io/driver/mysql"
 	"log"
 	"strings"
@@ -39,7 +39,7 @@ func main() {
 		panic("Failed to AutoMigrate")
 	}
 
-	toDoListRepositoryDB := repository.NewToDoListRepositoryDB(db)
+	toDoListRepositoryDB := repository2.NewToDoListRepositoryDB(db)
 	_ = toDoListRepositoryDB
 
 	// todolists, err := toDoListRepository.GetAll()
@@ -49,7 +49,7 @@ func main() {
 
 	// fmt.Println(todolists)
 
-	toDoListRepositoryMock := repository.NewToDoListRepositoryMock()
+	toDoListRepositoryMock := repository2.NewToDoListRepositoryMock()
 	_ = toDoListRepositoryMock
 	toDoListService := service.NewToDoListService(toDoListRepositoryMock)
 

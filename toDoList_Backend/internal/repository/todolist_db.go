@@ -1,8 +1,7 @@
 package repository
 
 import (
-	// "github.com/gofiber/fiber/v2"
-	"github.com/xXNeonKitsuneXx/toDoList_Backend/entities"
+	"github.com/xXNeonKitsuneXx/toDoList_Backend/internal/entities"
 	"gorm.io/gorm"
 )
 
