@@ -51,7 +51,8 @@ func main() {
 
 	toDoListRepositoryMock := repository2.NewToDoListRepositoryMock()
 	_ = toDoListRepositoryMock
-	toDoListService := service.NewToDoListService(toDoListRepositoryMock)
+
+	toDoListService := service.NewToDoListService(toDoListRepositoryDB)
 
 	toDoListHandler := handler.NewToDoListHandler(toDoListService)
 
