@@ -30,7 +30,6 @@ func (h *toDoListHandler) GetToDoLists(c *fiber.Ctx) error {
 			Name:        todolist.Name,
 			CreatedAt:   todolist.CreatedAt,
 			UpdatedAt:   todolist.UpdatedAt,
-			DeletedAt:   todolist.DeadlineAt,
 			DeadlineAt:  todolist.DeadlineAt,
 			DoneAt:      todolist.DoneAt,
 			Description: todolist.Description,

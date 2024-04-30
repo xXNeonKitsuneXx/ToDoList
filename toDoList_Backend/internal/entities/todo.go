@@ -7,7 +7,6 @@ type Todo struct {
 	Name        *string
 	CreatedAt   *time.Time
 	UpdatedAt   *time.Time
-	DeletedAt   *time.Time
 	DeadlineAt  *time.Time
 	DoneAt      *time.Time
 	Description *string

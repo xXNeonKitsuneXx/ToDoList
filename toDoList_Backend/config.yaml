@@ -2,7 +2,7 @@ app:
   port: 8000
 
 db:
-  host: "localhost"
+  host: "199.241.138.79"
   port: 3306
   username: BocchiKitsuNei
   password: Crown1003

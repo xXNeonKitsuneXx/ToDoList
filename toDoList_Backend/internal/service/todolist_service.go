@@ -28,7 +28,6 @@ func (s toDoListService) GetToDoLists() ([]entities.Todo, error) {
 			Name:        todolist.Name,
 			CreatedAt:   todolist.CreatedAt,
 			UpdatedAt:   todolist.UpdatedAt,
-			DeletedAt:   todolist.DeletedAt,
 			DeadlineAt:  todolist.DeadlineAt,
 			DoneAt:      todolist.DoneAt,
 			Description: todolist.Description,
